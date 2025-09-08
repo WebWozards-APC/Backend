@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/all").hasRole("ADMIN")
                         .requestMatchers("/api/users/{id}").hasAnyRole("ADMIN","USER")
                         .requestMatchers("/api/posts").permitAll()
-                        .requestMatchers("/api/post/{id}").hasAnyRole("ADMIN","USER")
+                        .requestMatchers("/api/posts/{postId}").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

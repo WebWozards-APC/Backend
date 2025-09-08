@@ -16,5 +16,5 @@ public interface PostService {
     PostDTO getPostById(Long postId);
     void deletePost(Long postId);
 
-    PostDTO updatePost(Long postId, UpdatePostRequest request, MultipartFile image);
+    PostDTO updatePost(Long postId, UpdatePostRequest req, MultipartFile image);
 }

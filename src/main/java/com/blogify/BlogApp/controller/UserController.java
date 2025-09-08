@@ -1,6 +1,7 @@
 package com.blogify.BlogApp.controller;
 
 import com.blogify.BlogApp.dto.LoginRequest;
+import com.blogify.BlogApp.dto.LoginResponse;
 import com.blogify.BlogApp.dto.UserDTO;
 import com.blogify.BlogApp.service.UserService;
 import jakarta.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
     private final UserService userService;
 
@@ -40,9 +42,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest request){
-        return ResponseEntity.ok(userService.login(request.getEmail(), request.getPassword()));
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        userService.login(request.getEmail(), request.getPassword()); // just validate
+        UserDTO user = userService.getUserByEmail(request.getEmail()); // fetch user details
+        return ResponseEntity.ok(new LoginResponse(user.getId(), user.getRoles()));
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<Page<UserDTO>> getAllUsers(

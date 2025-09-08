@@ -126,6 +126,4 @@ public class PostServiceImpl implements PostService {
         return mapPostToDTO(updated);
     }
 
-
-
 }

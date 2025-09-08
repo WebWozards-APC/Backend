@@ -1,6 +1,7 @@
 package com.blogify.BlogApp.service;
 
 import com.blogify.BlogApp.dto.UserDTO;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,4 +16,6 @@ public interface UserService {
     Page<UserDTO> getAllUsers(Pageable pageable);
     UserDTO getUserById(Long userId);
     String login(String email,String password);
+
+    UserDTO getUserByEmail(@NotBlank String email);
 }

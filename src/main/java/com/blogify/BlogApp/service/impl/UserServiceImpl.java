@@ -80,4 +80,12 @@ public class UserServiceImpl implements UserService {
         }
         return "Successfull Login";
     }
+
+    @Override
+    public UserDTO getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+        return modelMapper.map(user, UserDTO.class);
+    }
+
 }

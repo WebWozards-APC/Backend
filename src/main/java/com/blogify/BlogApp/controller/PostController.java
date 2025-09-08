@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/posts")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PostController {
     private final PostService postService;
 
@@ -69,6 +70,4 @@ public class PostController {
         PostDTO updated = postService.updatePost(postId, req, image);
         return ResponseEntity.ok(updated);
     }
-
-
 }
