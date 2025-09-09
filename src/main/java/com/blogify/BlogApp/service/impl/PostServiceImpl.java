@@ -126,4 +126,20 @@ public class PostServiceImpl implements PostService {
         return mapPostToDTO(updated);
     }
 
+    @Override
+    public Page<PostDTO> getPostsByUser(Long userId, Pageable pageable) {
+        return postRepository.findByUserId(userId, pageable)
+                .map(post -> {
+                    PostDTO dto = new PostDTO();
+                    dto.setId(post.getId());
+                    dto.setTitle(post.getTitle());
+                    dto.setContent(post.getContent());
+                    dto.setImgUrl(post.getImgUrl());
+                    dto.setCreatedAt(post.getCreatedAt());
+                    dto.setUserId(post.getUser().getId());
+                    return dto;
+                });
+    }
+
+
 }

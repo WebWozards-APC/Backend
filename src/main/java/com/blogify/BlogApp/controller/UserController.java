@@ -45,9 +45,15 @@ public class UserController {
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         userService.login(request.getEmail(), request.getPassword()); // just validate
         UserDTO user = userService.getUserByEmail(request.getEmail()); // fetch user details
-        return ResponseEntity.ok(new LoginResponse(user.getId(), user.getRoles()));
+        return ResponseEntity.ok(
+                new LoginResponse(
+                        user.getId(),
+                        user.getEmail(),
+                        user.getName(),
+                        user.getRoles()
+                )
+        );
     }
-
 
     @GetMapping("/all")
     public ResponseEntity<Page<UserDTO>> getAllUsers(

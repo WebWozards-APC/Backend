@@ -17,4 +17,6 @@ public interface PostService {
     void deletePost(Long postId);
 
     PostDTO updatePost(Long postId, UpdatePostRequest req, MultipartFile image);
+
+    Page<PostDTO> getPostsByUser(Long userId, Pageable pageable);
 }

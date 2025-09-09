@@ -24,7 +24,6 @@ public class DashboardController {
         return response;
     }
 
-    // For user -> blogs created by specific user
     @GetMapping("/user/{userId}")
     public Map<String, Object> getUserDashboard(@PathVariable Long userId) {
         long userBlogs = postRepository.countByUserId(userId);

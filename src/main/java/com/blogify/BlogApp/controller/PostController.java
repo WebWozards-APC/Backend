@@ -70,4 +70,16 @@ public class PostController {
         PostDTO updated = postService.updatePost(postId, req, image);
         return ResponseEntity.ok(updated);
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Page<PostDTO>> getPostsByUser(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<PostDTO> posts = postService.getPostsByUser(userId, pageable);
+        return ResponseEntity.ok(posts);
+    }
+
 }

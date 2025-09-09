@@ -24,21 +24,24 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize->authorize
+                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/users/register").permitAll()
                         .requestMatchers("/api/users/login").permitAll()
+                        .requestMatchers("/api/posts/user/**").permitAll()
                         .requestMatchers("/api/users/all").hasRole("ADMIN")
-                        .requestMatchers("/api/users/{id}").hasAnyRole("ADMIN","USER")
+                        .requestMatchers("/api/users/*").hasAnyRole("ADMIN", "USER") // 👈 fix for {id}
                         .requestMatchers("/api/posts").permitAll()
-                        .requestMatchers("/api/posts/{postId}").permitAll()
+                        .requestMatchers("/api/posts/*").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){
