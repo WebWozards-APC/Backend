@@ -20,7 +20,7 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService){
-        this.customUserDetailsService=customUserDetailsService;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
@@ -32,16 +32,18 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/register").permitAll()
                         .requestMatchers("/api/users/login").permitAll()
                         .requestMatchers("/api/posts/user/**").permitAll()
-                        .requestMatchers("/api/users/all").hasRole("ADMIN")
-                        .requestMatchers("/api/users/*").hasAnyRole("ADMIN", "USER") // 👈 fix for {id}
+                        .requestMatchers("/api/posts/*/comments/**").permitAll()
+                        .requestMatchers("/api/posts/*/likes/**").permitAll()
                         .requestMatchers("/api/posts").permitAll()
                         .requestMatchers("/api/posts/*").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/api/users/all").hasRole("ADMIN")
+                        .requestMatchers("/api/users/*").hasAnyRole("ADMIN", "USER")
+                        .anyRequest().authenticated()
+                )
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder(){
