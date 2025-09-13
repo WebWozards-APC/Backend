@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/users/register").permitAll()
                         .requestMatchers("/api/users/login").permitAll()
-                        .requestMatchers("/api/posts/user/**").permitAll()
+                        .requestMatchers(" /api/posts/user/**").permitAll()
                         .requestMatchers("/api/posts/*/comments/**").permitAll()
                         .requestMatchers("/api/posts/*/likes/**").permitAll()
                         .requestMatchers("/api/posts").permitAll()
