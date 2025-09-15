@@ -42,17 +42,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        userService.login(request.getEmail(), request.getPassword()); // just validate
-        UserDTO user = userService.getUserByEmail(request.getEmail()); // fetch user details
-        return ResponseEntity.ok(
-                new LoginResponse(
-                        user.getId(),
-                        user.getEmail(),
-                        user.getName(),
-                        user.getRoles()
-                )
-        );
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        String result = userService.login(request.getEmail(), request.getPassword());
+
+        if ("success".equals(result)) {
+            return ResponseEntity.ok("success");
+        } else {
+            return ResponseEntity.status(401).body("Invalid credentials");
+        }
     }
 
     @GetMapping("/all")

@@ -75,4 +75,7 @@ public class UserDTO {
     public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
+
+    public void setProfileImage(String image) {
+    }
 }
