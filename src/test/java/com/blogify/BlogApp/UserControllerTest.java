@@ -1,5 +1,4 @@
-
-        package com.blogify.BlogApp;
+package com.blogify.BlogApp;
 
 import com.blogify.BlogApp.controller.UserController;
 import com.blogify.BlogApp.dto.LoginRequest;
@@ -92,21 +91,22 @@ class UserControllerTest {
 
     @Test
     void testLogin() throws Exception {
-        // Build a proper login request
         LoginRequest request = new LoginRequest();
         request.setEmail("john@example.com");
         request.setPassword("password123");
 
-        // Mock the service call -> return plain string "success"
+        // Mock service calls
         when(userService.login(request.getEmail(), request.getPassword())).thenReturn("success");
+        when(userService.getUserByEmail(request.getEmail())).thenReturn(buildUser());
 
-        // Perform POST request and expect plain string response
         mockMvc.perform(post("/api/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("UTF-8")
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("success")); // ✅ fixed expectation
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.email").value("john@example.com"))
+                .andExpect(jsonPath("$.name").value("John Doe"))
+                .andExpect(jsonPath("$.roles[0]").value("ROLE_USER")); // ✅ LoginResponse JSON check
     }
 
     @Test
