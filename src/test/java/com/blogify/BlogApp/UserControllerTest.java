@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
-@AutoConfigureMockMvc(addFilters = false) // disable Spring Security for tests
+@AutoConfigureMockMvc(addFilters = false) 
 class UserControllerTest {
 
     @Autowired
@@ -37,7 +37,6 @@ class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    // ✅ helper method to build a UserDTO with setters
     private UserDTO buildUser() {
         UserDTO user = new UserDTO();
         user.setId(1L);
@@ -95,7 +94,7 @@ class UserControllerTest {
         request.setEmail("john@example.com");
         request.setPassword("password123");
 
-        // Mock service calls
+
         when(userService.login(request.getEmail(), request.getPassword())).thenReturn("success");
         when(userService.getUserByEmail(request.getEmail())).thenReturn(buildUser());
 
@@ -106,7 +105,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.email").value("john@example.com"))
                 .andExpect(jsonPath("$.name").value("John Doe"))
-                .andExpect(jsonPath("$.roles[0]").value("ROLE_USER")); // ✅ LoginResponse JSON check
+                .andExpect(jsonPath("$.roles[0]").value("ROLE_USER"));
     }
 
     @Test
